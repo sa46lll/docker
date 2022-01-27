@@ -35,7 +35,7 @@ jobs:
 #         run: ./gradlew bootBuildImage
 
       - name: Build with Gradle
-        run: ./gradle clean build
+        run: gradle clean build
 
       - uses: actions/checkout@v2
       - name: Build the Docker image
