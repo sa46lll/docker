@@ -82,7 +82,7 @@ jobs:
       - name: Update Kubernetes resources
         run: |
           cd kustomize-test/overlays/dev/
-          kustomize edit set image NEW_IMAGE_NAME:0.0.0.2
+          kustomize edit set image NEW_IMAGE_NAME:0.0.0.3
           cat kustomization.yaml
           
       # 수정된 파일 commit & push
