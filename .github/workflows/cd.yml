@@ -71,8 +71,8 @@ jobs:
       - name: Checkout kustomize repository
         uses: actions/checkout@v2
         with:
-          # kubernetes 설정정보 저장소
-          repository: sa46lll/docker-image
+          # github 설정정보 저장소
+          repository: sa46lll/kustomize-test
           ref: dev
           # 다른 저장소에 push 하려면 Personal Access Token이 필요.
           token: ${{ secrets.ACTION_TOKEN }}
