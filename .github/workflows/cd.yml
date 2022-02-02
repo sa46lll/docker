@@ -73,26 +73,26 @@ jobs:
         with:
           # github 설정정보 저장소
           repository: sa46lll/kustomize-test
-          ref: dev
+          ref: main
           # 다른 저장소에 push 하려면 Personal Access Token이 필요.
           token: ${{ secrets.ACTION_TOKEN }}
-          path: example-app-kustomize
+          path: kustomize-test
           
       # 새 이미지 버전으로 파일 수정
       - name: Update Kubernetes resources
         run: |
-          cd example-app-kustomize/overlays/dev/
+          cd kustomize-test/overlays/dev/
           kustomize edit set image NEW_IMAGE_NAME:0.0.0.2
           cat kustomization.yaml
           
       # 수정된 파일 commit & push
       - name: Commit files
         run: |
-          cd example-app-kustomize
+          cd kustomize-test
           git config --global user.email "9812smh@naver.com"
           git config --global user.name "sa46lll"
           git commit -am "Update image tag"
-          git push -u origin dev
+          git push -u origin main
           
           
 
