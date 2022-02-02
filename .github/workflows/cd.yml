@@ -56,5 +56,44 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: sa46lll/docker-image:latest
+          
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    needs: build    # build job 완료 후 진행
+    
+    steps:
+    
+       # kustomize 명령을 가져온다.
+      - name: Setup Kustomize
+        uses: imranismail/setup-kustomize@v1
+
+      - name: Checkout kustomize repository
+        uses: actions/checkout@v2
+        with:
+          # kubernetes 설정정보 저장소
+          repository: sa46lll/docker-image
+          ref: dev
+          # 다른 저장소에 push 하려면 Personal Access Token이 필요.
+          token: ${{ secrets.ACTION_TOKEN }}
+          path: example-app-kustomize
+          
+      # 새 이미지 버전으로 파일 수정
+      - name: Update Kubernetes resources
+        run: |
+          cd example-app-kustomize/overlays/dev/
+          kustomize edit set image NEW_IMAGE_NAME:0.0.0.2
+          cat kustomization.yaml
+          
+      # 수정된 파일 commit & push
+      - name: Commit files
+        run: |
+          cd example-app-kustomize
+          git config --global user.email "9812smh@naver.com"
+          git config --global user.name "sa46lll"
+          git commit -am "Update image tag"
+          git push -u origin dev
+          
+          
 
 
